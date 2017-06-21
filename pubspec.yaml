@@ -1,0 +1,10 @@
+name: hello_world_dart
+version: 0.0.1
+
+dependencies:
+  node_interop: ^0.0.1
+  vscode: ^1.0.0
+
+transformers:
+  - $dart2js
+  - node_interop
