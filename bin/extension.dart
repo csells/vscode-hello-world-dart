@@ -1,56 +1,51 @@
 @JS()
-library hello_world_dart;
+library;
 
-import 'dart:js' as js; // needed for allowInterop()
-import 'package:js/js.dart'; // needed for @JS() and @anonymous
-import 'package:node_interop/node_interop.dart'; // require(), exports and Pub transformer
+import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
 
-void main() {
-  VSCode vscode = require('vscode'); // strong typing FTW
+void main() async {
+  final vscode = (await importModule('vscode').toDart) as VSCode;
 
+  // this is marked "export" in the JS version generated my Microsoft
   void activate(ExtensionContext context) {
     print('Congratulations, your extension "hello-world-dart" is now active!');
 
-    void sayHello() {
-      vscode.window.showInformationMessage('Hello world');
+    void helloWorld() {
+      vscode.window.showInformationMessage('hello, world');
     }
 
     var disposable = vscode.commands
-        .registerCommand('extension.sayHello', js.allowInterop(sayHello));
+        .registerCommand('extension.helloWorld', helloWorld.toJS);
 
     context.subscriptions.add(disposable);
   }
 
-  exports.setProperty('activate', js.allowInterop(activate));
-  exports.setProperty('deactivate', js.allowInterop(() {}));
+  void deactivate() {}
+
+  // this is the old way to export; how to use Dart to do the new way??
+  final exports = globalContext['exports'] as JSObject;
+
+  exports['activate'] = activate.toJS;
+  exports['deactivate'] = deactivate.toJS;
 }
 
-@JS()
-@anonymous
-abstract class VSCode {
+extension type VSCode(JSObject _) implements JSObject {
   external Commands get commands;
   external Window get window;
 }
 
-@JS()
-@anonymous
-abstract class Commands {
-  external Disposable registerCommand(String command, Function callback,
-      [dynamic thisArg]);
+extension type Commands(JSObject _) implements JSObject {
+  external Disposable registerCommand(String command, JSFunction callback,
+      [JSAny? thisArg]);
 }
 
-@JS()
-@anonymous
-abstract class Disposable {}
+extension type Disposable(JSObject _) implements JSObject {}
 
-@JS()
-@anonymous
-abstract class Window {
-  external dynamic showInformationMessage(String message);
+extension type Window(JSObject _) implements JSObject {
+  external JSAny? showInformationMessage(String message);
 }
 
-@anonymous
-@JS()
-abstract class ExtensionContext {
-  external js.JsArray get subscriptions;
+extension type ExtensionContext(JSObject _) implements JSObject {
+  external JSArray get subscriptions;
 }

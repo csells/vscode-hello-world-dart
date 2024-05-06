@@ -1,0 +1,32 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "js",
+      "rootUri": "file:///Users/csells/.pub-cache/hosted/pub.dev/js-0.6.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "meta",
+      "rootUri": "file:///Users/csells/.pub-cache/hosted/pub.dev/meta-1.14.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "node_interop",
+      "rootUri": "file:///Users/csells/.pub-cache/hosted/pub.dev/node_interop-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "hello_world_dart",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    }
+  ],
+  "generated": "2024-05-06T00:59:00.751640Z",
+  "generator": "pub",
+  "generatorVersion": "3.3.4"
+}
